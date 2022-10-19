@@ -113,3 +113,54 @@
 
         export default HooksCakeContainer;
         ```
+
+# Multiple Reducers
+
+* Create same files as in `redux\cake` above in `src\redux\iceCream` folder
+
+* Add this line to export icecream action in `redux\index.js`
+    ```javascript
+    export { buyIceCream } from "./iceCream/iceCreamActions";
+    ```
+* Now we need to create root reducer
+* Create a file called `rootReducer.js` in `src\redux` folder
+    ```javascript
+    import { combineReducers } from "redux";
+    import cakeReducer from "./cake/cakeReducer";
+    import iceCreamReducer from "./iceCream/iceCreamReducer";
+
+    const rootReducer = combineReducers({
+      cake: cakeReducer,
+      iceCream: iceCreamReducer,
+    });
+
+    export default rootReducer;
+    ```
+* Now we need to update our store
+* Update `src\redux\store.js`
+    ```javascript
+    import { createStore } from "redux";
+    import rootReducer from "./rootReducer";
+
+    const store = createStore(rootReducer);
+
+    export default store;
+    ```
+* Now we can use this action in our component
+  ```javascript
+  import React from "react";
+  import { useDispatch, useSelector } from "react-redux";
+  import { buyIceCream } from "../redux";
+
+  export default function IceCreamContainer() {
+    //const noOfIceCreams = useSelector((state) => state.noOfIceCreams);
+    const noOfIceCreams = useSelector((state) => state.iceCream.noOfIceCreams);
+    const dispatch = useDispatch();
+    return (
+      <div>
+        <h2>No of IceCream : {noOfIceCreams}</h2>
+        <button onClick={() => dispatch(buyIceCream())}>buy iceCream</button>
+      </div>
+    );
+  }
+  ```
