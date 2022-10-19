@@ -1,13 +1,13 @@
 ## React Redux : Action, Reducer, Store:
 
-* first we need to define types of action
-* create a file called `actionTypes.js` in `src\redux\cake` folder
+* First we need to define types of action
+* Create a file called `actionTypes.js` in `src\redux\cake` folder
   ```javascript
     const BUY_CAKE = "BUY_CAKE";
     export { BUY_CAKE };
     ```
 
-* create a file called `cakeActions.js` in `src\redux\cake` folder
+* Create a file called `cakeActions.js` in `src\redux\cake` folder
   ```javascript
     import { BUY_CAKE } from "./actionTypes";
 
@@ -17,7 +17,7 @@
       };
     };
     ```
-* create a file called `cakeReducer.js` in `src\redux\cake` folder
+* Create a file called `cakeReducer.js` in `src\redux\cake` folder
    ```javascript
     import { BUY_CAKE } from "./actionTypes";
 
@@ -39,8 +39,8 @@
 
     export default cakeReducer;
     ```
-* now we need to create a store
-* create a file called `store.js` in `src\redux` folder
+* Now we need to create a store
+* Create a file called `store.js` in `src\redux` folder
     ```javascript
     import { createStore } from "redux";
     import cakeReducer from "./cake/cakeReducer";
@@ -49,11 +49,11 @@
 
     export default store;
     ```
-* for convinient we can create a file called `index.js` in `src\redux` folder
+* For convinient we can create a file called `index.js` in `src\redux` folder
     ```javascript
     export { buyCake } from "./cake/cakeActions";
     ```
-* now we can use this action in our component
+* Now we can use this action in our component
     ```javascript
     import React from "react";
     import { connect } from "react-redux";
@@ -88,3 +88,28 @@
 
     export default connect(mapStateToProps, mapDispatchToProps) (CakeContainer);
     ```
+# Using Redux with React Hooks
+
+* We can use redux with react hooks
+* We need to install `react-redux` and `redux` packages
+* Component level coding
+
+    * In context of previous code we need to do some changes to achieve the same outcome
+        ```javascript
+        import React from "react";
+        import { useDispatch, useSelector } from    "react-redux";
+        import { buyCake } from "../redux";
+
+        function HooksCakeContainer() {
+          const noOfCakes = useSelector((state) => state.   numOfCakes);
+          const dispatch = useDispatch();
+          return (
+            <div>
+              <h2>Number of Cake : {noOfCakes}</h2>
+              <button onClick={() => dispatch(buyCake())}   >Buy Cake</button>
+            </div>
+          );
+        }
+
+        export default HooksCakeContainer;
+        ```
